@@ -107,6 +107,7 @@ public:
 		return *this;
 
 	}
+	
 	LinkedList<T>& operator=(const LinkedList<T>& rhs) {
 		if(this == &rhs) return *this;
 
