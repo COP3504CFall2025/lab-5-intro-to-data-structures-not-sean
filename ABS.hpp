@@ -59,7 +59,7 @@ public:
         return *this;
     }
 
-    ~ABS() noexcept override {
+    ~ABS() noexcept {
         delete[] array_;
         capacity_ = 0;
         curr_size_ = 0;
@@ -99,12 +99,12 @@ public:
     }
 
     T peek() const override {
-        if (curr_size_ == 0) throw std::runtime_error("Empty");
+        if (curr_size_ == 0) throw std::runtime_error();
         return array_[curr_size_ - 1];
     }
 
     T pop() override {
-        if (curr_size_ == 0) throw std::runtime_error("Empty");
+        if (curr_size_ == 0) throw std::runtime_error();
         --curr_size_;
         return array_[curr_size_];
     }

@@ -75,7 +75,7 @@ public:
         return *this;
     }
 
-    ~ABQ() noexcept override {
+    ~ABQ() noexcept {
         delete[] array_;
         capacity_ = 0;
         curr_size_ = 0;
@@ -117,13 +117,13 @@ public:
 
     // Access
     T peek() const override {
-        if (curr_size_ == 0) throw std::runtime_error("Empty");
+        if (curr_size_ == 0) throw std::runtime_error();
         return array_[front_];
     }
 
     // Deletion
     T dequeue() override {
-        if (curr_size_ == 0) throw std::runtime_error("Empty");
+        if (curr_size_ == 0) throw std::runtime_error();
         T temp = array_[front_];
         front_ = (front_ + 1) % capacity_;
         return temp;

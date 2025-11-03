@@ -11,7 +11,6 @@ public:
     virtual T pop() = 0;
     virtual T peek() const = 0;
     virtual std::size_t getSize() const noexcept = 0;
-    virtual ~StackInterface() noexcept = 0;
 };
 
 
@@ -21,7 +20,6 @@ class QueueInterface {
     virtual T dequeue() = 0;
     virtual T peek() const = 0;
     virtual std::size_t getSize() const noexcept = 0;
-    virtual ~QueueInterface() noexcept = 0;
 };
 
 
