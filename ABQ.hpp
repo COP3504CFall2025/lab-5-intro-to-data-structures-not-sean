@@ -117,15 +117,16 @@ public:
 
     // Access
     T peek() const override {
-        if (curr_size_ == 0) throw std::runtime_error();
+        if (curr_size_ == 0) throw std::runtime_error("Empty");
         return array_[front_];
     }
 
     // Deletion
     T dequeue() override {
-        if (curr_size_ == 0) throw std::runtime_error();
+        if (curr_size_ == 0) throw std::runtime_error("Empty");
         T temp = array_[front_];
         front_ = (front_ + 1) % capacity_;
+        --curr_size_;
         return temp;
     }
 };
