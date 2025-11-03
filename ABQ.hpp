@@ -24,13 +24,13 @@ public:
     explicit ABQ(const size_t capacity) : capacity_(capacity), curr_size_(0), array_(new T[capacity_]), front_(0), back_(0) {}
 
     ABQ(const ABQ& other) : capacity_(other.capacity_), curr_size_(other.curr_size_), array_(new T[other.capacity_]), front_(other.front_), back_(other.back_) {
-        for (int i = 0; i < other.curr_size_; i++) {
+        for (size_t i = 0; i < other.curr_size_; i++) {
             this->array_[i] = other.array_[i];
         }
     }
 
     ABQ& operator=(const ABQ& rhs) {
-        if (this = &rhs) return *this;
+        if (this == &rhs) return *this;
 
         delete[] array_;
 
@@ -40,7 +40,7 @@ public:
         this->front_ = rhs.front_;
         this->back_ = rhs.back_;
 
-        for (int i = 0; i < rhs.curr_size_; i++) {
+        for (size_t i = 0; i < rhs.curr_size_; i++) {
             this->array_[i] = rhs.array_[i];
         }
 
@@ -56,7 +56,7 @@ public:
     }
 
     ABQ& operator=(ABQ&& rhs) noexcept {
-        if (this = &rhs) return *this;
+        if (this == &rhs) return *this;
 
         delete[] array_;
         
@@ -102,7 +102,7 @@ public:
             capacity_ = (capacity_ == 0) ? 1 : capacity_ * 2;
             T* newArray = new T[capacity_];
 
-            for (int i = 0; i < curr_size_; i++) {
+            for (size_t i = 0; i < curr_size_; i++) {
                 array_[i] = newArray[i];
             }
 
@@ -117,12 +117,13 @@ public:
 
     // Access
     T peek() const override {
+        if (curr_size_ == 0) throw std::runtime_error("Empty");
         return array_[front_];
     }
 
     // Deletion
     T dequeue() override {
-        if (curr_size_ == 0) throw std::out_of_range("Empty");
+        if (curr_size_ == 0) throw std::runtime_error("Empty");
         T temp = array_[front_];
         front_ = (front_ + 1) % capacity_;
         return temp;

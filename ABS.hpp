@@ -16,13 +16,13 @@ public:
     explicit ABS(const size_t capacity) : capacity_(capacity), curr_size_(0), array_(new T[capacity_]) {}
 
     ABS(const ABS& other) : capacity_(other.capacity_), curr_size_(other.curr_size_), array_(new T[other.capacity_]) {
-        for (int i = 0; i < other.curr_size_; i++) {
+        for (size_t i = 0; i < other.curr_size_; i++) {
             array_[i] = other.array_[i];
         }
     }
 
     ABS& operator=(const ABS& rhs) {
-        if (this = &rhs) return *this;
+        if (this == &rhs) return *this;
 
         delete[] array_;
 
@@ -30,7 +30,7 @@ public:
         capacity_ = rhs.capacity_;
         curr_size_ = rhs.curr_size_;
 
-        for (int i = 0; i < rhs.curr_size_; i++) {
+        for (size_t i = 0; i < rhs.curr_size_; i++) {
             array_[i] = rhs.array_[i];
         }
 
@@ -44,7 +44,7 @@ public:
     }
 
     ABS& operator=(ABS&& rhs) noexcept {
-        if (this = &rhs) return *this;
+        if (this == &rhs) return *this;
 
         delete[] array_;
         
@@ -83,10 +83,10 @@ public:
     // Push item onto the stack
     void push(const T& data) override {
         if (curr_size_ >= capacity_) {
-            capacity_ = (capacity_ == 0) ? 1 : capacity_ * 2;
+            capacity_ = (capacity_ == 0) ? 1 : capacity_ * scale_factor_;
             T* newArray = new T[capacity_];
 
-            for (int i = 0; i < curr_size_; i++) {
+            for (size_t i = 0; i < curr_size_; i++) {
                 array_[i] = newArray[i];
             }
 
@@ -99,11 +99,12 @@ public:
     }
 
     T peek() const override {
+        if (curr_size_ == 0) throw std::runtime_error("Empty");
         return array_[curr_size_ - 1];
     }
 
     T pop() override {
-        if (curr_size_ == 0) throw std::out_of_range("Empty");
+        if (curr_size_ == 0) throw std::runtime_error("Empty");
         --curr_size_;
         return array_[curr_size_];
     }
