@@ -117,7 +117,7 @@ public:
     }
 
     // Access
-    T& peek() const override {
+    T peek() const override {
         if (curr_size_ == 0) throw std::runtime_error("Empty");
         return array_[front_];
     }
