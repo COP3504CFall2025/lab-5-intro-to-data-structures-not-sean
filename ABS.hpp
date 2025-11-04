@@ -106,7 +106,8 @@ public:
 
     T pop() override {
         if (curr_size_ == 0) throw std::runtime_error("Empty");
-        if (curr_size_ < capacity_ / scale_factor_ && capacity_ > 1) {
+
+        if (curr_size_ <= capacity_ / scale_factor_ && capacity_ > 1) {
             capacity_ /= scale_factor_;
             T* newArray = new T[capacity_];
 
@@ -117,6 +118,7 @@ public:
             delete[] array_;
             array_ = newArray;
         }
+        
         --curr_size_;
         return array_[curr_size_];
     }
