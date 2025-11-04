@@ -23,10 +23,11 @@ public:
 
     ABS& operator=(const ABS& rhs) {
         if (this == &rhs) return *this;
-
+        
+        T* newData = new T[rhs.capacity_];
         delete[] array_;
 
-        array_ = new T[rhs.capacity_];
+        array_ = newData;
         capacity_ = rhs.capacity_;
         curr_size_ = rhs.curr_size_;
 
@@ -87,7 +88,7 @@ public:
             T* newArray = new T[capacity_];
 
             for (size_t i = 0; i < curr_size_; i++) {
-                array_[i] = newArray[i];
+                newArray[i] = array_[i];
             }
 
             delete[] array_;

@@ -21,7 +21,7 @@ public:
     // Constructors + Big 5
     ABQ() : capacity_(1), curr_size_(0), array_(new T[capacity_]), front_(0), back_(0) {}
 
-    explicit ABQ(const size_t capacity) : capacity_(capacity), curr_size_(0), array_(new T[capacity_]), front_(0), back_(0) {}
+    explicit ABQ(const size_t capacity) : capacity_(capacity), curr_size_(0), array_(new T[capacity]), front_(0), back_(0) {}
 
     ABQ(const ABQ& other) : capacity_(other.capacity_), curr_size_(other.curr_size_), array_(new T[other.capacity_]), front_(other.front_), back_(other.back_) {
         for (size_t i = 0; i < other.curr_size_; i++) {
@@ -32,9 +32,10 @@ public:
     ABQ& operator=(const ABQ& rhs) {
         if (this == &rhs) return *this;
 
+        T* newData = new T[rhs.capacity_];
         delete[] array_;
 
-        this->array_ = new T[rhs.capacity_];
+        this->array_ = newData;
         this->capacity_ = rhs.capacity_;
         this->curr_size_ = rhs.curr_size_;
         this->front_ = rhs.front_;
@@ -103,7 +104,7 @@ public:
             T* newArray = new T[capacity_];
 
             for (size_t i = 0; i < curr_size_; i++) {
-                array_[i] = newArray[i];
+                newArray[i] = array_[i];
             }
 
             delete[] array_;
@@ -116,7 +117,7 @@ public:
     }
 
     // Access
-    T peek() const override {
+    T& peek() const override {
         if (curr_size_ == 0) throw std::runtime_error("Empty");
         return array_[front_];
     }
