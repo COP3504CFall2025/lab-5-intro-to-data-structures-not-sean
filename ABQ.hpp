@@ -100,11 +100,13 @@ public:
     // Insertion
     void enqueue(const T& data) override {
         if (curr_size_ >= capacity_) {
+            int oldCapacity = capacity_;
             capacity_ = (capacity_ == 0) ? 1 : capacity_ * 2;
             T* newArray = new T[capacity_];
 
             for (size_t i = 0; i < curr_size_; i++) {
-                newArray[i] = array_[i];
+                newArray[i] = array_[front_];
+                front_ = (front_ + 1) % (oldCapacity);
             }
 
             delete[] array_;
@@ -127,11 +129,13 @@ public:
         if (curr_size_ == 0) throw std::runtime_error("Empty");
 
         if (curr_size_ <= capacity_ / 2 && capacity_ > 1) {
+            int oldCapacity = capacity_;
             capacity_ /= 2;
             T* newArray = new T[capacity_];
 
             for (size_t i = 0; i < curr_size_; i++) {
-                newArray[i] = array_[i];
+                newArray[i] = array_[front_];
+                front_ = (front_ + 1) % (oldCapacity);
             }
 
             delete[] array_;
