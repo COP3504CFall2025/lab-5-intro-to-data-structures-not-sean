@@ -109,6 +109,8 @@ public:
                 front_ = (front_ + 1) % (oldCapacity);
             }
 
+            front = 0;
+            back = curr_size_;
             delete[] array_;
             array_ = newArray;
         }
@@ -138,6 +140,8 @@ public:
                 front_ = (front_ + 1) % (oldCapacity);
             }
 
+            front = 0;
+            back = curr_size_;
             delete[] array_;
             array_ = newArray;
         }
