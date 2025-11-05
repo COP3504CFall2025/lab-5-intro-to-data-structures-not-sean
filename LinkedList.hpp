@@ -52,22 +52,19 @@ public:
 
 	// Insertion
 	void addHead(const T& data) {
-		Node<T>* newHead = new Node{data, nullptr, head};
-		//newHead->data = data;
-		//newHead->prev = nullptr;
-		//newHead->next = head;
+		Node<T>* newHead = new Node<T>{data, nullptr, head};
+
 		head->prev = newHead;
 		head = newHead;
 		count++;
 	}
 
 	void addTail(const T& data) {
-		Node<T>* newTail = new Node{data, tail, nullptr};
-		//newTail->data = data;
-		//newTail->prev = tail;
-		//newTail->next = nullptr;
+		Node<T>* newTail = new Node<T>{data, tail, nullptr};
+
 		tail->next = newTail;
 		tail = newTail;
+		
 		count++;
 	}
 
@@ -98,7 +95,7 @@ public:
 		Node<T>* current = head;
 
 		while (current) {
-			temp = current->next;
+			Node<T>* temp = current->next;
 			delete current;
 			current = temp;
 		}
@@ -110,7 +107,7 @@ public:
 
 	// Operators
 	LinkedList<T>& operator=(LinkedList<T>&& other) noexcept {
-		if(this == &rhs) return *this;
+		if(this == &other) return *this;
 		
 		clear();
 
@@ -133,7 +130,7 @@ public:
 		Node<T>* current = rhs.head;
 
 		if (current) {
-			Node<T>* startingNode = new Node{rhs.head->data, nullptr, nullptr};
+			Node<T>* startingNode = new Node<T>{rhs.head->data, nullptr, nullptr};
 			
 			head = startingNode;
 			tail = startingNode;
@@ -142,7 +139,7 @@ public:
 		}
 
 		while (current) {
-			Node<T>* newNode = new Node{current->data, tail, nullptr};
+			Node<T>* newNode = new Node<T>{current->data, tail, nullptr};
 			tail = newNode;
 			current = current->next;
 		}
@@ -159,7 +156,7 @@ public:
 		Node<T>* current = list.head;
 
 		if (current) {
-			Node<T>* startingNode = new Node{list.head->data, nullptr, nullptr};
+			Node<T>* startingNode = new Node<T>{list.head->data, nullptr, nullptr};
 			
 			head = startingNode;
 			tail = startingNode;
@@ -168,7 +165,7 @@ public:
 		}
 
 		while (current) {
-			Node<T>* newNode = new Node{current->data, tail, nullptr};
+			Node<T>* newNode = new Node<T>{current->data, tail, nullptr};
 			tail = newNode;
 			current = current->next;
 		}
