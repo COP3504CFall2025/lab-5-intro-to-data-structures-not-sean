@@ -86,7 +86,7 @@ public:
 		count--;
 	}
 
-	void Clear() {
+	void clear() {
 		Node* current = head;
 		while (current) {
 			delete current;
@@ -101,7 +101,7 @@ public:
 	LinkedList<T>& operator=(LinkedList<T>&& other) noexcept {
 		if(this == &rhs) return *this;
 		
-		Clear();
+		clear();
 
 		head = other.head;
 		tail = other.tail;
@@ -118,7 +118,7 @@ public:
 	LinkedList<T>& operator=(const LinkedList<T>& rhs) {
 		if(this == &rhs) return *this;
 
-		Clear();
+		clear();
 
 		Node* current = rhs.head;
 
@@ -177,13 +177,13 @@ public:
 	}
 
 	LinkedList(LinkedList<T>&& other) noexcept : head(other.head), tail(other.tail), count(other.count) {
-		other.head = nullptr;
+		other.head = nullptr; // TODO: CAN"T ACCESS THESE VARIABLES
 		other.tail = nullptr;
 		other.count = 0;
 	}
 
 	~LinkedList() {
-		Clear()
+		clear();
 	}
 
 private:
