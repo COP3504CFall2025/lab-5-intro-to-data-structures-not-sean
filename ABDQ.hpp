@@ -34,7 +34,7 @@ private:
     }
     
     void shrinkIfNeeded() {
-        if (size_ <= capacity_ / sc && capacity_ > 1) {
+        if (size_ <= capacity_ / SCALE_FACTOR && capacity_ > 1) {
             int oldCapacity = capacity_;
             capacity_ /= SCALE_FACTOR;
             T* newData = new T[capacity_];
