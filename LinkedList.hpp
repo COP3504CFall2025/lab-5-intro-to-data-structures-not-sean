@@ -5,8 +5,8 @@ using namespace std;
 template <typename T>
 struct Node {
     T data;
-    Node* prev;
-    Node* next;
+    Node<T>* prev;
+    Node<T>* next;
 };
 
 template <typename T>
@@ -14,7 +14,7 @@ class LinkedList {
 public:
 	// Behaviors
 	void printForward() const {
-		Node* current = head;
+		Node<T>* current = head;
 		while (current) {
 			cout << current->data << endl;
 			current = current->next;
@@ -22,7 +22,7 @@ public:
 	}
 
 	void printReverse() const {
-		Node* current = tail;
+		Node<T>* current = tail;
 		while (current) {
 			cout << current->data << endl;
 			current = current->prev;
@@ -34,25 +34,25 @@ public:
 		return count;
 	}
 
-	Node* getHead() {
+	Node<T>* getHead() {
 		return head;
 	}
 
-	const Node* getHead() const {
+	const Node<T>* getHead() const {
 		return head;
 	}
 
-	Node* getTail() {
+	Node<T>* getTail() {
 		return tail;
 	}
 
-	const Node* getTail() const {
+	const Node<T>* getTail() const {
 		return tail;
 	}
 
 	// Insertion
 	void addHead(const T& data) {
-		Node* newHead = new Node{data, nullptr, head};
+		Node<T>* newHead = new Node{data, nullptr, head};
 		//newHead->data = data;
 		//newHead->prev = nullptr;
 		//newHead->next = head;
@@ -62,7 +62,7 @@ public:
 	}
 
 	void addTail(const T& data) {
-		Node* newTail = new Node{data, tail, nullptr};
+		Node<T>* newTail = new Node{data, tail, nullptr};
 		//newTail->data = data;
 		//newTail->prev = tail;
 		//newTail->next = nullptr;
@@ -75,7 +75,7 @@ public:
 	bool removeHead() {
 		if (count == 0) return false;
 
-		Node* temp = head->next;
+		Node<T>* temp = head->next;
 		delete head;
 		head = temp;
 		count--;
@@ -86,16 +86,16 @@ public:
 	bool removeTail() {
 		if (count == 0) return false;
 
-		Node* temp = tail->prev;
+		Node<T>* temp = tail->prev;
 		delete tail;
 		tail = temp;
 		count--;
-		
+
 		return true;
 	}
 
 	void clear() {
-		Node* current = head;
+		Node<T>* current = head;
 
 		while (current) {
 			temp = current->next;
@@ -186,7 +186,7 @@ public:
 
 private:
 	// Stores pointers to first and last nodes and count
-	Node* head;
-	Node* tail;
+	Node<T>* head;
+	Node<T>* tail;
 	unsigned int count;
 };
