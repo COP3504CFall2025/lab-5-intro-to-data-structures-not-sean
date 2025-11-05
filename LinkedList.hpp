@@ -53,26 +53,26 @@ public:
 	// Insertion
 	void addHead(const T& data) {
 		if (count == 0) {
-			Node<T>* newHead = new Node<T>{data, nullptr, nullptr};
-			head = newHead;
-			tail = newHead;
+			Node<T>* newNode = new Node<T>{data, nullptr, nullptr};
+			head = newNode;
+			tail = newNode;
 		} else {
-			Node<T>* newHead = new Node<T>{data, nullptr, head};
-			head->prev = newHead;
-			head = newHead;
+			Node<T>* newNode = new Node<T>{data, nullptr, head};
+			head->prev = newNode;
+			head = newNode;
 		}
 		count++;
 	}
 
 	void addTail(const T& data) {
 		if (count == 0) {
-			Node<T>* newHead = new Node<T>{data, nullptr, nullptr};
-			head = newHead;
-			tail = newHead;
+			Node<T>* newNode = new Node<T>{data, nullptr, nullptr};
+			head = newNode;
+			tail = newNode;
 		} else {
-			Node<T>* newTail = new Node<T>{data, tail, nullptr};
-			tail->next = newTail;
-			tail = newTail;
+			Node<T>* newNode = new Node<T>{data, tail, nullptr};
+			tail->next = newNode;
+			tail = newNode;
 		}
 		count++;
 	}
