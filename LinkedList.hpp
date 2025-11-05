@@ -52,20 +52,20 @@ public:
 
 	// Insertion
 	void addHead(const T& data) {
-		Node* newHead = new Node;
-		newHead->data = data;
-		newHead->prev = nullptr;
-		newHead->next = head;
+		Node* newHead = new Node{data, nullptr, head};
+		//newHead->data = data;
+		//newHead->prev = nullptr;
+		//newHead->next = head;
 		head->prev = newHead;
 		head = newHead;
 		count++;
 	}
 
 	void addTail(const T& data) {
-		Node* newTail = new Node;
-		newTail->data = data;
-		newTail->prev = tail;
-		newTail->next = nullptr;
+		Node* newTail = new Node{data, tail, nullptr};
+		//newTail->data = data;
+		//newTail->prev = tail;
+		//newTail->next = nullptr;
 		tail->next = newTail;
 		tail = newTail;
 		count++;
@@ -73,25 +73,36 @@ public:
 
 	// Removal
 	bool removeHead() {
+		if (count == 0) return false;
+
 		Node* temp = head->next;
 		delete head;
 		head = temp;
 		count--;
+
+		return true;
 	}
 
 	bool removeTail() {
+		if (count == 0) return false;
+
 		Node* temp = tail->prev;
 		delete tail;
 		tail = temp;
 		count--;
+		
+		return true;
 	}
 
 	void clear() {
 		Node* current = head;
+
 		while (current) {
+			temp = current->next;
 			delete current;
-			current = current->next;
+			current = temp;
 		}
+
 		count = 0;
 		head = nullptr;
 		tail = nullptr;
@@ -103,7 +114,7 @@ public:
 		
 		clear();
 
-		head = other.head;
+		head = other.head; // TODO: May need to use getHead()
 		tail = other.tail;
 		count = other.count;
 
@@ -112,7 +123,6 @@ public:
 		other.count = 0;
 
 		return *this;
-
 	}
 	
 	LinkedList<T>& operator=(const LinkedList<T>& rhs) {
@@ -120,25 +130,19 @@ public:
 
 		clear();
 
-		Node* current = rhs.head;
+		Node<T>* current = rhs.head;
 
 		if (current) {
-			Node* startingNode = new Node;
-
-			startingNode->data = list.head;
-			startingNode->next = nullptr;
-			startingNode->prev = nullptr;
-			current = current->next;
-
+			Node<T>* startingNode = new Node{rhs.head->data, nullptr, nullptr};
+			
 			head = startingNode;
 			tail = startingNode;
+
+			current = current->next;
 		}
 
 		while (current) {
-			Node* newNode = new Node;
-			newNode->data = current->data;
-			newNode->prev = tail;
-			newNode->next = nullptr;
+			Node<T>* newNode = new Node{current->data, tail, nullptr};
 			tail = newNode;
 			current = current->next;
 		}
@@ -152,25 +156,19 @@ public:
 	LinkedList() : head(nullptr), tail(nullptr), count(0) {}
 
 	LinkedList(const LinkedList<T>& list) : count(list.count) {
-		Node* current = list.head;
+		Node<T>* current = list.head;
 
 		if (current) {
-			Node* startingNode = new Node;
-
-			startingNode->data = list.head;
-			startingNode->next = nullptr;
-			startingNode->prev = nullptr;
-			current = current->next;
-
+			Node<T>* startingNode = new Node{list.head->data, nullptr, nullptr};
+			
 			head = startingNode;
 			tail = startingNode;
+
+			current = current->next;
 		}
 
 		while (current) {
-			Node* newNode = new Node;
-			newNode->data = current->data;
-			newNode->prev = tail;
-			newNode->next = nullptr;
+			Node<T>* newNode = new Node{current->data, tail, nullptr};
 			tail = newNode;
 			current = current->next;
 		}
