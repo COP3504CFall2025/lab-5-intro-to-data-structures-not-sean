@@ -27,6 +27,7 @@ public:
 
     // Access
     T peek() const override {
+        if (!list.getTail()) throw std::runtime_error("Empty");
         return list.getTail()->data;
     }
 
