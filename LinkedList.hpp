@@ -86,6 +86,8 @@ public:
 		head = temp;
 		count--;
 
+		if (count == 0) tail = nullptr;
+
 		return true;
 	}
 
@@ -96,6 +98,8 @@ public:
 		delete tail;
 		tail = temp;
 		count--;
+
+		if (count == 0) head = nullptr;
 
 		return true;
 	}
