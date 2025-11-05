@@ -52,21 +52,28 @@ public:
 
 	// Insertion
 	void addHead(const T& data) {
-		if (!head) return;
-		Node<T>* newHead = new Node<T>{data, nullptr, head};
-
-		head->prev = newHead;
-		head = newHead;
+		if (count == 0) {
+			Node<T>* newHead = new Node<T>{data, nullptr, nullptr};
+			head = newHead;
+			tail = newHead;
+		} else {
+			Node<T>* newHead = new Node<T>{data, nullptr, head};
+			head->prev = newHead;
+			head = newHead;
+		}
 		count++;
 	}
 
 	void addTail(const T& data) {
-		if (!tail) return;
-		Node<T>* newTail = new Node<T>{data, tail, nullptr};
-
-		tail->next = newTail;
-		tail = newTail;
-		
+		if (count == 0) {
+			Node<T>* newHead = new Node<T>{data, nullptr, nullptr};
+			head = newHead;
+			tail = newHead;
+		} else {
+			Node<T>* newTail = new Node<T>{data, tail, nullptr};
+			tail->next = newTail;
+			tail = newTail;
+		}
 		count++;
 	}
 
