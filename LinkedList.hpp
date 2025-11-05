@@ -52,6 +52,7 @@ public:
 
 	// Insertion
 	void addHead(const T& data) {
+		if (!head) return;
 		Node<T>* newHead = new Node<T>{data, nullptr, head};
 
 		head->prev = newHead;
@@ -60,6 +61,7 @@ public:
 	}
 
 	void addTail(const T& data) {
+		if (!tail) return;
 		Node<T>* newTail = new Node<T>{data, tail, nullptr};
 
 		tail->next = newTail;
@@ -172,7 +174,7 @@ public:
 	}
 
 	LinkedList(LinkedList<T>&& other) noexcept : head(other.head), tail(other.tail), count(other.count) {
-		other.head = nullptr; // TODO: CAN"T ACCESS THESE VARIABLES
+		other.head = nullptr;
 		other.tail = nullptr;
 		other.count = 0;
 	}
