@@ -23,7 +23,7 @@ public:
     explicit ABDQ(std::size_t capacity) : capacity_(capacity), size_(0), front_(0), back_(0), data_(new T[capacity]) {}
 
     ABDQ(const ABDQ& other) : capacity_(other.capacity_), size_(other.size_), front_(other.front_), back_(other.back_), data_(new T[other.capacity_]) {
-        for (std::size_t i = 0; i < other.capacity_; i++) {
+        for (std::size_t i = 0; i < other.size_; i++) {
             data_[i] = other.data_[i];
         }
     }
@@ -48,7 +48,7 @@ public:
         front_ = other.front_;
         back_ = other.back_;
 
-        for (int i = 0; i < other.capacity_; i++) {
+        for (int i = 0; i < other.size_; i++) {
             data_[i] = other.data_[i];
         }
 
@@ -100,7 +100,12 @@ public:
             data_ = newData;
         }
 
-        front_ = (front_ - 1) % capacity_;
+        if (front_ == 0) {
+            front_ = capacity_ - 1;
+        } else {
+            front_ = (front_ - 1) % capacity_;
+        }
+        
         data_[front_] = item;
         ++size_;
     }
@@ -172,9 +177,15 @@ public:
             delete[] data_;
             data_ = newData;
         }
-
+        
         T temp = data_[back_];
-        back_ = (back_ - 1) % capacity_;
+        
+        if (back_ == 0) {
+            back_ = capacity_ - 1;
+        } else {
+            back_ = (back_ - 1) % capacity_;
+        }
+
         --size_;
 
         return temp;
