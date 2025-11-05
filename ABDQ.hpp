@@ -22,15 +22,15 @@ public:
 
     explicit ABDQ(std::size_t capacity) : capacity_(capacity), size_(0), front_(0), back_(0), data_(new T[capacity_]) {}
 
-    ABDQ(const ABDQ& other) : capacity_(other.capacity_), size_(other.size), front_(other.front_), back_(other.back_), data_(new T[other.capacity_]) {
+    ABDQ(const ABDQ& other) : capacity_(other.capacity_), size_(other.size_), front_(other.front_), back_(other.back_), data_(new T[other.capacity_]) {
         for (int i = 0; i < other.capacity_; i++) {
             data_[i] = other.data_[i];
         }
     }
 
-    ABDQ(ABDQ&& other) noexcept : capacity_(other.capacity_), size_(other.size), front_(other.front_), back_(other.back_), data_(other.data_) {
+    ABDQ(ABDQ&& other) noexcept : capacity_(other.capacity_), size_(other.size_), front_(other.front_), back_(other.back_), data_(other.data_) {
         other.data_ = nullptr;
-        other.capacity_ = 0
+        other.capacity_ = 0;
         other.size_ = 0;
         other.front_ = 0;
         other.back_ = 0;
@@ -65,7 +65,7 @@ public:
         back_ = other.back_;
 
         other.data_ = nullptr;
-        other.capacity_ = 0
+        other.capacity_ = 0;
         other.size_ = 0;
         other.front_ = 0;
         other.back_ = 0;
@@ -73,7 +73,7 @@ public:
         return *this;
     }
 
-    ~ABDQ() override {
+    ~ABDQ() noexcept {
         delete[] data_;
         data_ = nullptr;
         capacity_ = 0;
@@ -148,7 +148,7 @@ public:
         }
 
         T temp = data_[front_];
-        front_ = (front + 1) % capacity_;
+        front_ = (front_ + 1) % capacity_;
         --size_;
 
         return temp;
@@ -174,7 +174,7 @@ public:
         }
 
         T temp = data_[back_];
-        back = (back - 1) % capacity_;
+        back_ = (back_ - 1) % capacity_;
         --size_;
 
         return temp;
