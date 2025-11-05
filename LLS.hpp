@@ -20,6 +20,7 @@ public:
 
     // Deletion
     T pop() override {
+        if (!list.getTail()) throw std::runtime_error("Empty");
         T temp = list.getTail()->data;
         list.removeTail();
         return temp;
