@@ -153,6 +153,7 @@ public:
 
 		while (current) {
 			Node<T>* newNode = new Node<T>{current->data, tail, nullptr};
+			tail->next = newNode;
 			tail = newNode;
 			current = current->next;
 		}
@@ -179,6 +180,7 @@ public:
 
 		while (current) {
 			Node<T>* newNode = new Node<T>{current->data, tail, nullptr};
+			tail->next = newNode;
 			tail = newNode;
 			current = current->next;
 		}
