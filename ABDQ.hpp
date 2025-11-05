@@ -127,8 +127,8 @@ public:
             data_ = newData;
         }
 
-        back_ = (back_ + 1) % capacity_;
         data_[back_] = item;
+        back_ = (back_ + 1) % capacity_;
         ++size_;
     }
 
@@ -178,8 +178,8 @@ public:
             data_ = newData;
         }
         
-        T temp = data_[back_];
-        
+        T temp = data_[(back_ == 0) ? capacity_ - 1 : back_ - 1];
+
         if (back_ == 0) {
             back_ = capacity_ - 1;
         } else {
@@ -199,7 +199,7 @@ public:
 
     const T& back() const override {
         if (size_ == 0) throw std::runtime_error("Empty");
-        return data_[back_];
+        return data_[(back_ == 0) ? capacity_ - 1 : back_ - 1];
     }
 
     // Getters
