@@ -16,6 +16,40 @@ private:
 
     static constexpr std::size_t SCALE_FACTOR = 2;
 
+    void ensureCapacity() {
+        if (size_ >= capacity_) {
+            int oldCapacity = capacity_;
+            capacity_ = (capacity_ == 0) ? 1 : capacity_ * SCALE_FACTOR;
+            T* newData = new T[capacity_];
+
+            for (size_t i = 0; i < size_; i++) {
+                newData[i] = data_[(front_ + i) % oldCapacity];
+            }
+
+            front_ = 0;
+            back_ = size_;
+            delete[] data_;
+            data_ = newData;
+        }
+    }
+    
+    void shrinkIfNeeded() {
+        if (size_ <= capacity_ / sc && capacity_ > 1) {
+            int oldCapacity = capacity_;
+            capacity_ /= SCALE_FACTOR;
+            T* newData = new T[capacity_];
+
+            for (size_t i = 0; i < size_; i++) {
+                newData[i] = data_[(front_ + i) % oldCapacity];
+            }
+
+            front_ = 0;
+            back_ = size_;
+            delete[] data_;
+            data_ = newData;
+        }
+    }
+
 public:
     // Big 5
     ABDQ() : capacity_(4), size_(0), front_(0), back_(0), data_(new T[4]) {}
@@ -58,6 +92,8 @@ public:
     ABDQ& operator=(ABDQ&& other) noexcept {
         if (this == &other) return *this;
 
+        delete[] data_;
+
         data_ = other.data_;
         capacity_ = other.capacity_;
         size_ = other.size_;
@@ -84,48 +120,17 @@ public:
 
     // Insertion
     void pushFront(const T& item) override {
-        if (size_ >= capacity_) {
-            int oldCapacity = capacity_;
-            capacity_ = (capacity_ == 0) ? 1 : capacity_ * SCALE_FACTOR;
-            T* newData = new T[capacity_];
+        ensureCapacity();
 
-            for (size_t i = 0; i < size_; i++) {
-                newData[i] = data_[front_];
-                front_ = (front_ + 1) % (oldCapacity);
-            }
-
-            front_ = 0;
-            back_ = size_;
-            delete[] data_;
-            data_ = newData;
-        }
-
-        if (front_ == 0) {
-            front_ = capacity_ - 1;
-        } else {
-            front_ = (front_ - 1) % capacity_;
-        }
+        if (front_ == 0) front_ = capacity_ - 1;
+        else front_ = (front_ - 1) % capacity_;
         
         data_[front_] = item;
         ++size_;
     }
 
     void pushBack(const T& item) override {
-        if (size_ >= capacity_) {
-            int oldCapacity = capacity_;
-            capacity_ = (capacity_ == 0) ? 1 : capacity_ * SCALE_FACTOR;
-            T* newData = new T[capacity_];
-
-            for (size_t i = 0; i < size_; i++) {
-                newData[i] = data_[front_];
-                front_ = (front_ + 1) % (oldCapacity);
-            }
-
-            front_ = 0;
-            back_ = size_;
-            delete[] data_;
-            data_ = newData;
-        }
+        ensureCapacity();
 
         data_[back_] = item;
         back_ = (back_ + 1) % capacity_;
@@ -136,21 +141,7 @@ public:
     T popFront() override {
         if (size_ == 0) throw std::runtime_error("Empty");
 
-        if (size_ <= capacity_ / 2 && capacity_ > 1) {
-            int oldCapacity = capacity_;
-            capacity_ /= SCALE_FACTOR;
-            T* newData = new T[capacity_];
-
-            for (size_t i = 0; i < size_; i++) {
-                newData[i] = data_[front_];
-                front_ = (front_ + 1) % (oldCapacity);
-            }
-
-            front_ = 0;
-            back_ = size_;
-            delete[] data_;
-            data_ = newData;
-        }
+        shrinkIfNeeded();
 
         T temp = data_[front_];
         front_ = (front_ + 1) % capacity_;
@@ -162,29 +153,12 @@ public:
     T popBack() override {
         if (size_ == 0) throw std::runtime_error("Empty");
 
-        if (size_ <= capacity_ / 2 && capacity_ > 1) {
-            int oldCapacity = capacity_;
-            capacity_ /= SCALE_FACTOR;
-            T* newData = new T[capacity_];
-
-            for (size_t i = 0; i < size_; i++) {
-                newData[i] = data_[front_];
-                front_ = (front_ + 1) % (oldCapacity);
-            }
-
-            front_ = 0;
-            back_ = size_;
-            delete[] data_;
-            data_ = newData;
-        }
+        shrinkIfNeeded();
         
         T temp = data_[(back_ == 0) ? capacity_ - 1 : back_ - 1];
 
-        if (back_ == 0) {
-            back_ = capacity_ - 1;
-        } else {
-            back_ = (back_ - 1) % capacity_;
-        }
+        if (back_ == 0) back_ = capacity_ - 1;
+        else back_ = (back_ - 1) % capacity_;
 
         --size_;
 
