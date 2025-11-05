@@ -14,7 +14,7 @@ public:
     LLQ() {}
 
     // Insertion
-    void enqueue(const T& item) override; {
+    void enqueue(const T& item) override {
         list.addTail(item);
     }
 
